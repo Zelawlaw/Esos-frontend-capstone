@@ -24,8 +24,9 @@ function Login () {
         <>
         {/* <p> Hey</p>;  */}
 
-        <div className="d-flex vh-100 justify-content-center align-items-center bg-success">
+            <div className="d-flex vh-100 justify-content-center align-items-center bg-success">
             <div className="p-3 bg-white w-25">
+            <div className="big-title text-center"><h2>eSOS</h2></div>
             <form action="">
                 <div className="mb-3">
                     <label for="email">Email</label>
@@ -38,7 +39,7 @@ function Login () {
                 </div>
            
             
-                <button className="btn btn-success" type="submit"> Log In </button>
+                <a href="https://google.com"> <button className="btn btn-success" type="submit"> Log In </button> </a>
             </form>
             </div>
         </div>
