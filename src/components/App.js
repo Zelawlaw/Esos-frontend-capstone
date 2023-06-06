@@ -1,16 +1,27 @@
-// import logo from './logo.svg';
 import '../App.css';
 import Login from './Login';
 import Header from './Header';
-import Dashboard from './Pages/Dashboard';
-// import Dashboard from './Pages/Dashboard';
+import Sidebar from './Sidebar';
+import Home from './Home';
+
 
 function App() {
   return (
-    <div className="App">
+    <div className='container-fluid bg-secondary min-vh-100'>
+      <div className='row'>
+        <div className='col-2 bg-white vh-100'>
+        <Sidebar />
+        </div>
+        <div className='col-auto'>
+          <Home />
+
+        </div>
+   
+      </div>
       <Header />
       <Login />
-      <Dashboard />
+      
+      {/* <Dashboard /> */}
       </div>
   );
 }
