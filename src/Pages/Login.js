@@ -1,5 +1,6 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from "react-router-dom";
 // import { useState } from "react";
 
 
@@ -16,10 +17,13 @@ function Login () {
     // const [email, setEmail] = useState('');
     // const [pass, setPass] = useState('');
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log(email);
-    // } 
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        navigate ('/dashboard')
+        console.log("Successful login");
+    } 
 
     return (
         <>
@@ -39,8 +43,7 @@ function Login () {
                     <input type="password" placeholder="xxxxxxxxxxx" className="form-control"/>
                 </div>
            
-            
-                <a href="https://www.google.com/"> <button className="btn btn-success" type="submit"> Log In </button> </a>
+                <button className="btn btn-success" type="submit" onClick={handleSubmit}> Log In </button>
             </form>
             </div>
         </div>
