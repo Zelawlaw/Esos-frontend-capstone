@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import { useState } from "react";
 
 
+
 // export const Login = () => {
 //     return {
 //         <Login />
@@ -39,7 +40,7 @@ function Login () {
                 </div>
            
             
-                <a href="https://google.com"> <button className="btn btn-success" type="submit"> Log In </button> </a>
+                <a href="https://www.google.com/"> <button className="btn btn-success" type="submit"> Log In </button> </a>
             </form>
             </div>
         </div>
