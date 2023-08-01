@@ -1,12 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../contexts/AuthContext";
+import UpdateForm from './UpdateForm';
 import Nav from "./Nav";
 import axios from "axios";
 
-function Home() {
+function Home(props) {
   const [data, setData] = useState(null);
   const [summary, setSummary] = useState(null);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+const [currentIncident, setCurrentIncident] = useState(null);
+ const onIncidentUpdate = props.onIncidentUpdate;
   const { role } = useContext(AuthContext);
+  const navigate = useNavigate();
   useEffect(() => {
     const instance = axios.create({
       baseURL: "http://localhost:8080/api/v1/",
@@ -56,15 +62,50 @@ function Home() {
   }
 
 
-  const handleViewLogs = (incident) => {
-    // Handle view logs logic here...
-  };
+
+
+const handleViewLogs = (incident) => {
+  if (incident.logsCollection.length === 0) {
+    alert("No logs associated with this incident");
+  }
+  else {
+  navigate('/logs', { state: { logs: incident.logsCollection ,incidentId: incident.incidentID } });
+  }
+};
   
-  const handleUpdate = (incident) => {
-    // Handle update logic here...
-  };
+const handleUpdate = (incident) => {
+  setCurrentIncident(incident);
+  setShowUpdateForm(true);
+};
+
 
   const { personalIncidents, reporteeIncidents } = data;
+
+  function renderAdminActionButtons(incident) {
+    return (
+      <>
+        <button onClick={() => handleViewLogs(incident)}>View Logs</button>
+        {
+          role === "ROLE_ADMIN" && incident.status.toLowerCase() !== "resolved" && (
+            <button onClick={() => handleUpdate(incident)}>Update</button>
+          )
+        }
+      </>
+    );
+  }
+
+  function renderActionButtons(incident) {
+    return (
+      <>
+        <button onClick={() => handleViewLogs(incident)}>View Logs</button>
+        {
+          incident.status.toLowerCase() !== "resolved" && (
+            <button onClick={() => handleUpdate(incident)}>Update</button>
+          )
+        }
+      </>
+    );
+  }
 
   return (
     <div className="px-3">
@@ -135,10 +176,7 @@ function Home() {
                 <td>{incident.description}</td>
                 <td>{incident.status}</td>
                 <td>
-                  <button onClick={() => handleViewLogs(incident)}>
-                    View Logs
-                  </button>
-                  <button onClick={() => handleUpdate(incident)}>Update</button>
+                 {renderActionButtons(incident)}
                 </td>
               </tr>
             ))}
@@ -168,14 +206,7 @@ function Home() {
                 <td>{incident.description}</td>
                 <td>{incident.status}</td>
                 <td>
-                  <button onClick={() => handleViewLogs(incident)}>
-                    View Logs
-                  </button>
-                  {role === "ROLE_ADMIN" && (
-                    <button onClick={() => handleUpdate(incident)}>
-                      Update
-                    </button>
-                  )}
+                {renderAdminActionButtons(incident)}
                 </td>
               </tr>
             ))}
@@ -187,6 +218,8 @@ function Home() {
         (!reporteeIncidents || reporteeIncidents.length === 0) && (
           <p>No Incidents to display!</p>
         )}
+    <UpdateForm show={showUpdateForm} handleClose={() => setShowUpdateForm(false)} incident={currentIncident} onIncidentUpdate={onIncidentUpdate} />
+
     </div>
   );
 }

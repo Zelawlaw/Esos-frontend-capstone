@@ -4,7 +4,8 @@ import React from 'react'
 import Sidebar from '../components/Sidebar'
 import Home from '../components/Home'
 
-function Dashboard() {
+function Dashboard(props) {
+  const onIncidentUpdate = props.onIncidentUpdate;
   return (
     <div className='container-fluid bg-secondary min-vh-100'>
         <div className='row'>
@@ -12,7 +13,7 @@ function Dashboard() {
           <Sidebar />
         </div>
         <div className='col'>
-          <Home />
+        <Home onIncidentUpdate={onIncidentUpdate} />
         </div>
         </div>
         <div>
