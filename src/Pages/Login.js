@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import loginService from "../services/loginService"; 
+import { AuthContext } from '../contexts/AuthContext';
+
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState(""); 
+  const { loggedIn, setLoggedIn } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -15,6 +18,7 @@ function Login() {
       const userData = await loginService.login(username, password);
       setUsername(userData.username);
       setRole(userData.role);
+      setLoggedIn(true); 
       console.log("Successful login");
       navigate("/dashboard");
     } catch (error) {
