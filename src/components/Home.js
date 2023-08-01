@@ -1,152 +1,108 @@
-import React from 'react'
-import Nav from './Nav'
+import React, { useEffect, useState } from 'react';
+import Nav from './Nav';
+import axios from 'axios';
 
+
+ 
 function Home() {
-  return (    
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const instance = axios.create({
+      baseURL: 'http://localhost:8080/api/v1/',
+      timeout: 1000,
+      headers: {'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`}
+    });
+    
+    const getIncidents = async () => {
+      try {
+        const response = await instance.get('getincidents');
+        console.log(JSON.stringify(response.data));
+        return response.data;
+      } catch (error) {
+        console.error('Failed to fetch incidents', error);
+        return null;
+      }
+    };
+
+    getIncidents().then(data => {
+      setData(data);
+    }).catch(error => {
+      console.log(error);
+    });
+
+  }, []);
+
+  if (!data) {
+    return "Loading...";
+  }
+
+  const { personalIncidents, reporteeIncidents } = data;
+
+  return (
     <div className='px-3'>
-    <Nav />
-        <div className='container-fluid'>
-            <div className='row g-3 my-2'>
-                <div className='col-md-3 p-1'>
-                    <div className='p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded'>
-                        <div>
-                            <p className='fs-4'>All</p>
-                            <h3 className='fs-4'>6</h3>
-                            
-                        </div>
-                        <i className='bi bi-circle-fill p-3 fs-1 text-danger'></i>
-                    </div>
-                </div>
+      <Nav />
+      <div className='container-fluid'>
+        {/* The rest of your content goes here, this is where you could use the getIncidentSummary data */}
+      </div>
 
-                <div className='col-md-3 p-1'>
-                    <div className='p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded'>
-                        <div>
-                            <p className='fs-4'>Active</p>
-                            <h3 className='fs-4'>3</h3>
-                            
-                        </div>
-                        <i className='bi bi-circle-fill p-3 fs-1 text-warning'></i>
-                    </div>
-                </div>
+      {personalIncidents && personalIncidents.length > 0 && (
+        <table className="table table-hover caption-top bg-white rounded mt-2">
+          <caption className='text-white fs-4'> My Cases</caption>
+          <thead>
+            <tr>
+              <th scope="col">#Case ID</th>
+              <th scope="col">Submitter</th>
+              <th scope="col">Date</th>
+              <th scope="col">Notes</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {personalIncidents.map((incident, index) => (
+              <tr key={index}>
+                <th scope="row">{incident.incidentID}</th>
+                <td>{incident.reporter}</td>
+                <td>{new Date(incident.reportedtime).toLocaleDateString()}</td>
+                <td>{incident.description}</td>
+                <td>{incident.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
-                <div className='col-md-3 p-1'>
-                    <div className='p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded'>
-                        <div>
-                            <p className='fs-4'>Pending</p>
-                            <h3 className='fs-4'>2</h3>
-                            
-                        </div>
-                        <i className='bi bi-circle-fill p-3 fs-1 text-warning'></i>
-                    </div>
-                </div>
+      {reporteeIncidents && reporteeIncidents.length > 0 && (
+        <table className="table table-hover caption-top bg-white rounded mt-2">
+          <caption className='text-white fs-4'> Reportee Cases</caption>
+          <thead>
+            <tr>
+              <th scope="col">#Case ID</th>
+              <th scope="col">Submitter</th>
+              <th scope="col">Date</th>
+              <th scope="col">Notes</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reporteeIncidents.map((incident, index) => (
+              <tr key={index}>
+                <th scope="row">{incident.incidentID}</th>
+                <td>{incident.reporter}</td>
+                <td>{new Date(incident.reportedtime).toLocaleDateString()}</td>
+                <td>{incident.description}</td>
+                <td>{incident.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
-                <div className='col-md-3 p-1'>
-                    <div className='p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded'>
-                        <div>
-                            <p className='fs-4'>Resolved</p>
-                            <h3 className='fs-4'>1</h3>
-                            
-                        </div>
-                        <i className='bi bi-circle-fill p-3 fs-1 text-success'></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-            
-            
-
-
-        <table class="table table-hover caption-top bg-white rounded mt-2">
-                <caption className='text-white fs-4'> My Cases</caption>
-    <thead>
-        <tr>
-        <th scope="col">#Case ID</th>
-        {/* <th scope="col">Firstname</th>
-        <th scope="col">Lastname</th> */}
-        {/* <th scope="col">Email</th> */}
-        <th scope="col">Submitter</th>
-        <th scope="col">Date</th>
-        <th scope="col">Notes</th>
-        <th scope="col">Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <th scope="row">3</th>
-        {/* <td>Susan</td>
-        <td>Bori</td>
-        <td>Subri@example.com</td> */}
-        <td>Chris</td>
-        <td>7/6/2023</td>
-        <td>Medical case</td>
-        <td>Pending</td>
-        </tr>
-        <tr>
-        <th scope="row">1</th>
-        {/* <td>Pyllis</td>
-        <td>Mata</td>
-        <td>PM@example.com</td> */}
-        <td>Hellen</td>
-        <td>8/6/2023</td>
-        <td>Burglary</td>
-        <td>Resolved</td>
-        </tr>
-        <tr>
-        <th scope="row">1</th>
-        {/* <td>Joanna</td>
-        <td>Mila</td>
-        <td>JMila@example.com</td> */}
-        <td>Hellen</td>
-        <td>9/6/2023</td>
-        <td>Medical case</td>
-        <td>Pending</td>
-        </tr>
-    </tbody>
-    </table>
-
-
-
-
-
-    <table class="table table-hover caption-top bg-white rounded mt-2">
-                <caption className='text-white fs-4'> Reportee Cases</caption>
-    <thead>
-        <tr>
-        <th scope="col">#Case ID</th>
-        <th scope="col">Submitter</th>
-        <th scope="col">Date</th>
-        <th scope="col">Notes</th>
-        <th scope="col">Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <th scope="row">1</th>
-        <td>Hellen</td>
-        <td>5/6/2023</td>
-        <td>Medical case</td>
-        <td>Active</td>
-        </tr>
-        <tr>
-        <th scope="row">2</th>
-        <td>Lawrence</td>
-        <td>5/6/2023</td>
-        <td>Burglary</td>
-        <td>Active</td>
-        </tr>
-        <tr>
-        <th scope="row">3</th>
-        <td>Reuben</td>
-        <td>5/6/2023</td>
-        <td>Hijacking</td>
-        <td>Active</td>
-        </tr>
-       
-    </tbody>
-    </table>
-    </div>   
-  )
+      {(!personalIncidents || personalIncidents.length === 0) && (!reporteeIncidents || reporteeIncidents.length === 0) && (
+        <p>No Incidents to display!</p>
+      )}
+    </div>
+  );
 }
 
-export default Home
+export default Home;

@@ -7,8 +7,8 @@ import { AuthContext } from '../contexts/AuthContext';
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState(""); 
-  const { loggedIn, setLoggedIn } = useContext(AuthContext);
+  //const [role, setRole] = useState(""); 
+  const { loggedIn, setLoggedIn ,setRole} = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -20,6 +20,9 @@ function Login() {
       setRole(userData.role);
       setLoggedIn(true); 
       console.log("Successful login");
+     // console.log('username :'+userData.username);
+     // console.log('role :'+userData.role);
+
       navigate("/dashboard");
     } catch (error) {
       console.log("Failed login");
