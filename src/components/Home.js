@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../contexts/AuthContext";
 import UpdateForm from './UpdateForm';
+import LogsForm from "./LogsForm";
 import Nav from "./Nav";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ function Home(props) {
   const [data, setData] = useState(null);
   const [summary, setSummary] = useState(null);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [showLogsForm, setShowLogsForm] = useState(false);
 const [currentIncident, setCurrentIncident] = useState(null);
  const onIncidentUpdate = props.onIncidentUpdate;
   const { role } = useContext(AuthContext);
@@ -65,12 +67,14 @@ const [currentIncident, setCurrentIncident] = useState(null);
 
 
 const handleViewLogs = (incident) => {
+  setCurrentIncident(incident);
   if (incident.logsCollection.length === 0) {
     alert("No logs associated with this incident");
   }
   else {
-  navigate('/logs', { state: { logs: incident.logsCollection ,incidentId: incident.incidentID } });
-  }
+ // navigate('/logs', { state: { logs: incident.logsCollection ,incidentId: currentIncident.incidentID } });
+  setShowLogsForm(true); 
+}
 };
   
 const handleUpdate = (incident) => {
@@ -220,6 +224,8 @@ const handleUpdate = (incident) => {
           <p>No Incidents to display!</p>
         )}
     <UpdateForm show={showUpdateForm} handleClose={() => setShowUpdateForm(false)} incident={currentIncident} onIncidentUpdate={onIncidentUpdate} />
+    <LogsForm show={showLogsForm} handleClose={() => setShowLogsForm(false)} logs={currentIncident.logsCollection} incidentId={currentIncident.incidentID} />
+
     </div>
   );
 }

@@ -3,7 +3,7 @@ import Login from '../Pages/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from "react";
 import Dashboard from '../Pages/Dashboard';
-import Logs from './Logs';  // Import the Logs page
+import Logs from './LogsForm';  // Import the Logs page
 import ErrorPage from '../Pages/ErrorPage';
 import { AuthContext } from '../contexts/AuthContext';
 import { useContext } from 'react';
