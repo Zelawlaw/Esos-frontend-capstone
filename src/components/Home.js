@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import {  Button } from "react-bootstrap";
 import { AuthContext } from "../contexts/AuthContext";
 import UpdateForm from './UpdateForm';
 import Logs from "./Logs";
@@ -18,11 +19,7 @@ const [currentIncident, setCurrentIncident] = useState(null);
   const instance = getAxiosInstance(contextjwt);
   const navigate = useNavigate();
   useEffect(() => {
-    // const instance = axios.create({
-    //   baseURL: "http://localhost:8080/api/v1/",
-    //   timeout: 1000,
-    //   headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` },
-    // });
+
 
     const getIncidents = async () => {
       try {
@@ -92,10 +89,11 @@ const handleUpdate = (incident) => {
   function renderAdminActionButtons(incident) {
     return (
       <>
-        <button onClick={() => handleViewLogs(incident)}>View Logs</button>
+        <Button onClick={() => handleViewLogs(incident)}>View Logs</Button>
+        <span> </span>
         {
           role === "ROLE_ADMIN" && incident.status.toLowerCase() !== "resolved" && (
-            <button onClick={() => handleUpdate(incident)}>Update</button>
+            <Button onClick={() => handleUpdate(incident)}>Update</Button>
           )
         }
       </>
@@ -105,10 +103,11 @@ const handleUpdate = (incident) => {
   function renderActionButtons(incident) {
     return (
       <>
-        <button onClick={() => handleViewLogs(incident)}>View Logs</button>
+        <Button onClick={() => handleViewLogs(incident)}>View Logs</Button>
+        <span> </span>
         {
           incident.status.toLowerCase() !== "resolved" && (
-            <button onClick={() => handleUpdate(incident)}>Update</button>
+            <Button onClick={() => handleUpdate(incident)}>Update</Button>
           )
         }
       </>
@@ -127,7 +126,6 @@ const handleUpdate = (incident) => {
                 <p className="fs-4">All</p>
                 <h3 className="fs-4">{summary.all}</h3>
               </div>
-              <i className="bi bi-circle-fill p-3 fs-1 text-danger"></i>
             </div>
           </div>
 
@@ -137,7 +135,7 @@ const handleUpdate = (incident) => {
                 <p className="fs-4">Active</p>
                 <h3 className="fs-4">{summary.active}</h3>
               </div>
-              <i className="bi bi-circle-fill p-3 fs-1 text-warning"></i>
+              <i className="bi bi-circle-fill p-3 fs-1 text-danger"></i>
             </div>
           </div>
 

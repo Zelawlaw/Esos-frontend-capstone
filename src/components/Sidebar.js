@@ -9,7 +9,7 @@ import "../styles.css";
 
 function Sidebar(props) {
   const onIncidentUpdate = props.onIncidentUpdate;
-  const { setLoggedIn ,role} = useContext(AuthContext);
+  const { setLoggedIn ,role,setContextjwt} = useContext(AuthContext);
   const [showCreateIncidentModal, setShowCreateIncidentModal] = useState(false);
   const [showUsersModal, setShowUsersModal] = useState(false);
 
@@ -17,6 +17,7 @@ function Sidebar(props) {
 
   const handleLogout = () => {
     localStorage.removeItem("jwtToken");
+    setContextjwt('');
     setLoggedIn(false);
     navigate("/login");
   };
