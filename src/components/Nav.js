@@ -22,20 +22,21 @@ function Nav() {
       }, []);
    
       return (
-        <nav className="navbar navbar-expand-sm navbar-light bg-light">
-          <a className="navbar-brand" href="#/">
+        <nav className="navbar navbar-expand-sm navbar-light bg-light" style={{ borderRadius: '10px' }}>
+          <a className="navbar-brand" href="#/" style={{ borderRadius: '10px' }}>
             <img src="safari4.png" width="150" height="50" alt="" />
           </a>
           <div className="collapse navbar-collapse" id="collapsibleNavId">
             <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
             </ul>
-            <div className="d-flex my-2 my-lg-0">
+            <div className="d-flex my-2 my-lg-0" style={{ borderRadius: '10px' }}>
               <label className="form-label me-sm-2" htmlFor="username">Logged In:</label>
               <span id="username">{compositeUsername}</span>
             </div>
           </div>
         </nav>
-      )
+      );
+      
       
       
 }

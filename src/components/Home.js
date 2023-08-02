@@ -116,6 +116,16 @@ const handleUpdate = (incident) => {
   
 
   return (
+    <div
+    style={{
+      borderColor: "white",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundImage: `url("loginpage.jpg")`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("loginpage.jpg")`, 
+      minHeight: "100vh",
+    }}
+  >
     <div className="px-3">
       <Nav />
       <div className="container-fluid">
@@ -162,14 +172,13 @@ const handleUpdate = (incident) => {
       </div>
 
       {personalIncidents && personalIncidents.length > 0 && (
-        <table className="table table-hover caption-top bg-white rounded mt-2">
-          <caption className="text-white fs-4"> My Cases</caption>
+        <table className="table table-hover caption-top bg-white rounded mt-2" style={{ borderTopLeftRadius: '15px', borderTopRightRadius: '15px', borderBottomLeftRadius: '15px', borderBottomRightRadius: '15px', overflow: 'hidden' }}>          <caption className="text-white fs-4"> My Cases</caption>
           <thead>
             <tr>
-              <th scope="col">#Case ID</th>
+              <th scope="col">Case ID</th>
               <th scope="col">Submitter</th>
               <th scope="col">Date</th>
-              <th scope="col">Notes</th>
+              <th scope="col">Summary</th>
               <th scope="col">Status</th>
               <th scope="col">Actions</th>
             </tr>
@@ -192,14 +201,13 @@ const handleUpdate = (incident) => {
       )}
 
       {reporteeIncidents && reporteeIncidents.length > 0 && (
-        <table className="table table-hover caption-top bg-white rounded mt-2">
-          <caption className="text-white fs-4"> Reportee Cases</caption>
+        <table className="table table-hover caption-top bg-white rounded mt-2" style={{ borderTopLeftRadius: '15px', borderTopRightRadius: '15px', borderBottomLeftRadius: '15px', borderBottomRightRadius: '15px', overflow: 'hidden' }}>          <caption className="text-white fs-4"> Reportee Cases</caption>
           <thead>
             <tr>
-              <th scope="col">#Case ID</th>
+              <th scope="col">Case ID</th>
               <th scope="col">Submitter</th>
               <th scope="col">Date</th>
-              <th scope="col">Notes</th>
+              <th scope="col">Summary</th>
               <th scope="col">Status</th>
               <th scope="col">Actions</th>
             </tr>
@@ -228,6 +236,7 @@ const handleUpdate = (incident) => {
     <UpdateForm show={showUpdateForm} handleClose={() => setShowUpdateForm(false)} incident={currentIncident} onIncidentUpdate={onIncidentUpdate} />
     <Logs show={showLogsForm} handleClose={() => setShowLogsForm(false)} logs={currentIncident ? currentIncident.logsCollection : null} incidentId={currentIncident ? currentIncident.incidentID : null} />
 
+    </div>
     </div>
   );
 }

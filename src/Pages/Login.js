@@ -8,6 +8,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   //const [role, setRole] = useState("");
+  const[errorMessage,setErrorMessage] = useState('');
   const { setAuthusername, loggedIn, setLoggedIn, setRole, setContextjwt } =
     useContext(AuthContext);
 
@@ -22,12 +23,14 @@ function Login() {
       setRole(userData.role);
       setContextjwt(userData.token);
       setLoggedIn(true);
+      setErrorMessage('');
       console.log("Successful login");
       // console.log('username :'+userData.username);
       // console.log('role :'+userData.role);
 
       navigate("/dashboard");
     } catch (error) {
+      setErrorMessage("Incorrect username/Password");
       console.log("Failed login");
     }
   };
@@ -84,6 +87,11 @@ function Login() {
                 Log In{" "}
               </button>
             </form>
+            {errorMessage && 
+          <div style={{ color: 'red' }}>
+            {errorMessage}
+          </div>
+        }
           </div>
         </div>
       </div>
