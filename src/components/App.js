@@ -3,7 +3,7 @@ import Login from '../Pages/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from "react";
 import Dashboard from '../Pages/Dashboard';
-import Logs from './LogsForm';  // Import the Logs page
+import LogsForm from './LogsForm';  // Import the Logs page
 import ErrorPage from '../Pages/ErrorPage';
 import { AuthContext } from '../contexts/AuthContext';
 import { useContext } from 'react';
@@ -24,7 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/dashboard" element={loggedIn ? <Dashboard key={dashboardKey} onIncidentUpdate={refreshDashboard} /> : <Navigate to="/login" />} />
-        <Route path="/logs" element={loggedIn ? <Logs /> : <Navigate to="/login" />} /> 
+        {/* <Route path="/logs" element={loggedIn ? <Logs /> : <Navigate to="/login" />} />  */}
         <Route path='*' element={<ErrorPage/>} />
       </Routes>
     </BrowserRouter>

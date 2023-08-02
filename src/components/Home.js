@@ -224,7 +224,7 @@ const handleUpdate = (incident) => {
           <p>No Incidents to display!</p>
         )}
     <UpdateForm show={showUpdateForm} handleClose={() => setShowUpdateForm(false)} incident={currentIncident} onIncidentUpdate={onIncidentUpdate} />
-    <LogsForm show={showLogsForm} handleClose={() => setShowLogsForm(false)} logs={currentIncident.logsCollection} incidentId={currentIncident.incidentID} />
+    <LogsForm show={showLogsForm} handleClose={() => setShowLogsForm(false)} logs={currentIncident ? currentIncident.logsCollection : null} incidentId={currentIncident ? currentIncident.incidentID : null} />
 
     </div>
   );

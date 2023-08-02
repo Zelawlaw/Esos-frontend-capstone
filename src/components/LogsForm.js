@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal ,Button} from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
 function LogsForm({ show, handleClose, logs, incidentId }) {
   return (
@@ -8,26 +8,30 @@ function LogsForm({ show, handleClose, logs, incidentId }) {
         <Modal.Title>Logs for Incident {incidentId}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Incident Update</th>
-              <th>Update Time</th>
-              <th>Updated By</th>
-            </tr>
-          </thead>
-          <tbody>
-            {logs
-              .sort((a, b) => new Date(b.updatetime) - new Date(a.updatetime))
-              .map((log, index) => (
-                <tr key={index}>
-                  <td>{log.incidentUpdate}</td>
-                  <td>{new Date(log.updatetime).toLocaleString()}</td>
-                  <td>{log.updatedby}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        {logs ? (
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Incident Update</th>
+                <th>Update Time</th>
+                <th>Updated By</th>
+              </tr>
+            </thead>
+            <tbody>
+              {logs
+                .sort((a, b) => new Date(b.updatetime) - new Date(a.updatetime))
+                .map((log, index) => (
+                  <tr key={index}>
+                    <td>{log.incidentUpdate}</td>
+                    <td>{new Date(log.updatetime).toLocaleString()}</td>
+                    <td>{log.updatedby}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        ) : (
+          <div>No logs available for this incident.</div>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
@@ -38,3 +42,4 @@ function LogsForm({ show, handleClose, logs, incidentId }) {
   );
 }
 
+export default LogsForm;
