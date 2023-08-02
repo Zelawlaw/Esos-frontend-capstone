@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 function UpdateForm({ show, handleClose, incident, onIncidentUpdate }) {
+  console.log("what about here?");
   const [update, setUpdate] = useState('');
   const [status, setStatus] = useState(incident?.status || '');
 

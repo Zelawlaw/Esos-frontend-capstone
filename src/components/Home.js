@@ -106,6 +106,7 @@ const handleUpdate = (incident) => {
       </>
     );
   }
+  
 
   return (
     <div className="px-3">
@@ -219,7 +220,6 @@ const handleUpdate = (incident) => {
           <p>No Incidents to display!</p>
         )}
     <UpdateForm show={showUpdateForm} handleClose={() => setShowUpdateForm(false)} incident={currentIncident} onIncidentUpdate={onIncidentUpdate} />
-
     </div>
   );
 }
