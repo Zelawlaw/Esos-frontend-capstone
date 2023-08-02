@@ -1,0 +1,45 @@
+import axios from 'axios';
+
+const instance = axios.create({
+  baseURL: 'http://localhost:8080/api/v1/',
+  timeout: 1000,
+  headers: {'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`}
+});
+
+ const getIncidents = async () => {
+  try {
+    const response = await instance.get('getincidents');
+    console.log(JSON.stringify(response.data));
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch incidents', error);
+    return null;
+  }
+};
+
+ const getIncidentsSummary = async () => {
+  try {
+    const response = await instance.get('getincidentsummary');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch incident summary', error);
+    return null;
+  }
+};
+
+const updateIncident = async (incidentUpdate) => {
+  try {
+    const response = await instance.post('updateincident' ,incidentUpdate);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch incident summary', error);
+    return null;
+  }
+};
+
+
+const ticketService = {
+  getIncidents ,getIncidentsSummary
+};
+
+export default ticketService;

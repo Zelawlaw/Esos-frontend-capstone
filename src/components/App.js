@@ -1,57 +1,32 @@
 import '../App.css';
 import Login from '../Pages/Login';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useState } from "react";
 import Dashboard from '../Pages/Dashboard';
 import ErrorPage from '../Pages/ErrorPage';
-// import Sidebar from './Sidebar';
-// import Home from './Home';
-// import Newcase from '../Pages/Newcase';
-// import Dashboard from '../Pages/Dashboard';
-
+import { AuthContext } from '../contexts/AuthContext';
+import { useContext } from 'react';
 
 function App() {
-  return (
-    // <div className='container-fluid bg-secondary min-vh-100'>
-    //   <Login />
-    //   <div className='row'>
-    //     <div className='col-2 bg-white vh-100'>
-    //       <Sidebar />
-    //     </div>
-    //     <div className='col'>
-    //       <Home />
-    //     </div>
-    //     </div>
-    //     <div>
-    //   <Newcase />
-    //   </div>
-    //   </div>
+  const { loggedIn } = useContext(AuthContext);
+  const [dashboardKey, setDashboardKey] = useState(0);
 
-    <>
+  const refreshDashboard = () => {
+    console.log("before adding key :"+dashboardKey);
+    setDashboardKey(prevKey => prevKey + 1); 
+    console.log("after adding key :"+dashboardKey);
+  };
+
+  return (
     <BrowserRouter>
-      <Routes> 
-        <Route index element = {<Login />} />
-        <Route path='/dashboard' element = {<Dashboard />} />
-        <Route path='*' element = {<ErrorPage/>} /> 
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={loggedIn ? <Dashboard key={dashboardKey} onIncidentUpdate={refreshDashboard} /> : <Navigate to="/login" />} />
+        {/* <Route path="/logs" element={loggedIn ? <Logs /> : <Navigate to="/login" />} />  */}
+        <Route path='*' element={<ErrorPage/>} />
       </Routes>
     </BrowserRouter>
-
-
-    </>
-
-    // <div className='container-fluid bg-secondary min-vh-100'>
-    //   <Login />
-    //   {/* <div className='row'>
-    //     <div className='col-2 bg-white vh-100'> */}
-    //       {/* <Dashboard /> */}
-    //       {/* <Newcase /> */}
-    //     </div>
-        // </div>
-        // </div>
-   
-
-
-
-
   );
 }
 
