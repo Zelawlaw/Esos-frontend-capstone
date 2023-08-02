@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../contexts/AuthContext";
 import UpdateForm from './UpdateForm';
-import LogsForm from "./LogsForm";
+import Logs from "./Logs";
 import Nav from "./Nav";
 import axios from "axios";
+import getAxiosInstance from "../services/api2";
 
 function Home(props) {
   const [data, setData] = useState(null);
@@ -13,17 +14,20 @@ function Home(props) {
   const [showLogsForm, setShowLogsForm] = useState(false);
 const [currentIncident, setCurrentIncident] = useState(null);
  const onIncidentUpdate = props.onIncidentUpdate;
-  const { role } = useContext(AuthContext);
+  const { role ,contextjwt} = useContext(AuthContext);
+  const instance = getAxiosInstance(contextjwt);
   const navigate = useNavigate();
   useEffect(() => {
-    const instance = axios.create({
-      baseURL: "http://localhost:8080/api/v1/",
-      timeout: 1000,
-      headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` },
-    });
+    // const instance = axios.create({
+    //   baseURL: "http://localhost:8080/api/v1/",
+    //   timeout: 1000,
+    //   headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` },
+    // });
 
     const getIncidents = async () => {
       try {
+
+       
         const response = await instance.get("getincidents");
         return response.data;
       } catch (error) {
@@ -224,7 +228,7 @@ const handleUpdate = (incident) => {
           <p>No Incidents to display!</p>
         )}
     <UpdateForm show={showUpdateForm} handleClose={() => setShowUpdateForm(false)} incident={currentIncident} onIncidentUpdate={onIncidentUpdate} />
-    <LogsForm show={showLogsForm} handleClose={() => setShowLogsForm(false)} logs={currentIncident ? currentIncident.logsCollection : null} incidentId={currentIncident ? currentIncident.incidentID : null} />
+    <Logs show={showLogsForm} handleClose={() => setShowLogsForm(false)} logs={currentIncident ? currentIncident.logsCollection : null} incidentId={currentIncident ? currentIncident.incidentID : null} />
 
     </div>
   );

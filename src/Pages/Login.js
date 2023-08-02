@@ -8,7 +8,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   //const [role, setRole] = useState(""); 
-  const { loggedIn, setLoggedIn ,setRole} = useContext(AuthContext);
+  const { loggedIn, setLoggedIn ,setRole,setContextjwt} = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -18,6 +18,7 @@ function Login() {
       const userData = await loginService.login(username, password);
       setUsername(userData.username);
       setRole(userData.role);
+      setContextjwt(userData.token);
       setLoggedIn(true); 
       console.log("Successful login");
      // console.log('username :'+userData.username);

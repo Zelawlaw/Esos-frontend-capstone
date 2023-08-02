@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-function LogsForm({ show, handleClose, logs, incidentId }) {
+function Logs({ show, handleClose, logs, incidentId }) {
   return (
     <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
@@ -42,4 +42,4 @@ function LogsForm({ show, handleClose, logs, incidentId }) {
   );
 }
 
-export default LogsForm;
+export default Logs;

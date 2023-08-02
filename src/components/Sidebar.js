@@ -2,14 +2,16 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import CreateIncidentForm from "./CreateIncidentForm";
+import Users from "./Users";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../styles.css";
 
 function Sidebar(props) {
   const onIncidentUpdate = props.onIncidentUpdate;
-  const { setLoggedIn } = useContext(AuthContext);
+  const { setLoggedIn ,role} = useContext(AuthContext);
   const [showCreateIncidentModal, setShowCreateIncidentModal] = useState(false);
+  const [showUsersModal, setShowUsersModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -21,13 +23,21 @@ function Sidebar(props) {
 
   const openCreateIncidentModal = (e) => {
     e.preventDefault();
-    console.log("im i being clicked?");
     setShowCreateIncidentModal(true);
   };
 
   const closeCreateIncidentModal = () => {
     onIncidentUpdate();
     setShowCreateIncidentModal(false);
+  };
+
+  const openUsersModal = (e) => {
+    console.log("clicked?");
+    setShowUsersModal(true);
+  };
+  const closeUsersModal = () => {
+    onIncidentUpdate();
+    setShowUsersModal(false);
   };
 
   return (
@@ -43,10 +53,16 @@ function Sidebar(props) {
           <i className="bi bi-house fs-5 me-3"></i>
           <span className="fs-5">Home</span>
         </a>
-        <a href="#/" className="list-group-item py-2">
-          <i className="bi bi-people-fill fs-5 me-3"></i>
-          <span className="fs-5">Users</span>
-        </a>
+        {role === "ROLE_ADMIN" && (
+          <a href="#/"
+           className="list-group-item py-2"
+           onClick={openUsersModal}
+          >
+            <i className="bi bi-people-fill fs-5 me-3"
+            ></i>
+            <span className="fs-5">Users</span>
+          </a>
+        )}
         <a
           href="#/"
           className="list-group-item py-2"
@@ -66,6 +82,10 @@ function Sidebar(props) {
         show={showCreateIncidentModal}
         handleClose={closeCreateIncidentModal}
         onIncidentUpdate={onIncidentUpdate}
+      />
+       <Users
+        show={showUsersModal}
+        handleClose={closeUsersModal} 
       />
     </div>
   );
