@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState ,useContext} from "react";
 import axios from "axios";
-import instance from "../services/api";
+import getAxiosInstance from '../services/api2';
 import { Button, Modal, Form } from "react-bootstrap";
+import { AuthContext } from '../contexts/AuthContext';
 
 // const instance = axios.create({
 //   baseURL: "http://localhost:8080/api/v1/",
@@ -11,6 +12,8 @@ import { Button, Modal, Form } from "react-bootstrap";
 const CreateUserForm = ({ show, onHide, users, refreshUsers }) => {
   const [notification, setNotification] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { contextjwt} = useContext(AuthContext);
+  const instance = getAxiosInstance(contextjwt);
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -37,7 +40,7 @@ const CreateUserForm = ({ show, onHide, users, refreshUsers }) => {
         delete payload.managerId;
       }
       console.log(JSON.stringify(payload));
-     
+      
       await instance.post("createuser", payload);
       refreshUsers();
       setNotification("User has been added successfully!");
